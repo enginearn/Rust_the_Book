@@ -1,4 +1,4 @@
-# Rust Book
+# Rust the Book
 
 ---
 
