@@ -2,7 +2,7 @@
 
 ---
 
-## Chapter_1
+## Chapter 1
 
 <details>
 <summary>rustup --version</summary>
@@ -121,7 +121,7 @@ Finished dev [unoptimized + debuginfo] target(s) in 0.39s
 
 ---
 
-## Chapter_2
+## Chapter 2
 
 ### programming a Guessing Game
 
@@ -146,7 +146,7 @@ let mut apple = 5; // mutable
 
 `mut` means mutable.
 After the value is assigned to the variable, the variable name is prefixed with `mut`.
-it looks like `&mut apple` or `&apple` and `&` means reference.
+it looks like `&mut apple` or `&apple` and `&` means ***reference***.
 
 </details>
 
@@ -209,3 +209,68 @@ cargo build
 ```
 
 </details>
+
+<details>
+<summary>cargo doc --open</summary>
+
+``` PowerShell
+cargo doc --open
+    Checking cfg-if v1.0.0
+    Checking ppv-lite86 v0.2.16
+ Documenting cfg-if v1.0.0
+ Documenting ppv-lite86 v0.2.16
+    Checking getrandom v0.2.6
+    Checking rand_core v0.6.3
+ Documenting getrandom v0.2.6
+    Checking rand_chacha v0.3.1
+    Checking rand v0.8.5
+ Documenting rand_core v0.6.3
+ Documenting rand_chacha v0.3.1
+ Documenting rand v0.8.5
+ Documenting guessing_game v0.1.0 (C:\Users\nagar\Development\Rust\projects\guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 10.35s
+     Opening C:\Users\nagar\Development\Rust\projects\guessing_game\target\doc\guessing_game\index.html
+```
+
+</details>
+
+<details>
+<summary>match guess.cmp(&secret_number)</summary>
+
+`cmp` means ***compare***.
+
+> A `match` expression is made up of arms. An arm consists of a pattern to match against,
+> and the code that should be run if the value given to `match` fits that arm's pattern.
+
+</details>
+
+<details>
+<summary>underscore `_` is a catch all values</summary>
+
+``` rust
+let guess: u32 =
+        guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+```
+
+``` rust
+cargo run
+   Compiling guessing_game v0.1.0 (C:\Users\nagar\Development\Rust\projects\guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.61s
+     Running `target\debug\guessing_game.exe`
+Guess the number!
+The secret number is: 1
+Please input your guess.
+a
+Please input your guess.
+あ
+Please input your guess.
+1
+You guessed: 1
+You won!
+```
+
+</details>
+
