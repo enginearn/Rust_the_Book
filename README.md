@@ -80,7 +80,7 @@ $ cd hello_cargo
 
 ``` PowerShell
 $ cargo build                                                                                                                                                                                 in pwsh at 16:24:04 
-Compiling hello_cargo v0.1.0 (C:\Users\nagar\Development\Rust\projects\hello_cargo)
+Compiling hello_cargo v0.1.0 (C:\Users\path\Development\Rust\projects\hello_cargo)
 Finished dev [unoptimized + debuginfo] target(s) in 1.33s
 ```
 
@@ -113,7 +113,7 @@ Hello, world!
 
 ``` PowerShell
 $ cargo check                                                                                                                                                                                 in pwsh at 16:44:44 
-Checking hello_cargo v0.1.0 (C:\Users\nagar\Development\Rust\projects\hello_cargo)
+Checking hello_cargo v0.1.0 (C:\Users\path\Development\Rust\projects\hello_cargo)
 Finished dev [unoptimized + debuginfo] target(s) in 0.39s
 ```
 
@@ -155,7 +155,7 @@ it looks like `&mut apple` or `&apple` and `&` means ***reference***.
 
 ``` PowerShell
 $ cargo build
-Compiling guessing_game v0.1.0 (C:\Users\nagar\Development\Rust\projects\guessing_game)
+Compiling guessing_game v0.1.0 (C:\Users\path\Development\Rust\projects\guessing_game)
 Finished dev [unoptimized + debuginfo] target(s) in 1.21s
 ```
 
@@ -204,7 +204,7 @@ cargo build
    Compiling rand_core v0.6.3
    Compiling rand_chacha v0.3.1
    Compiling rand v0.8.5
-   Compiling guessing_game v0.1.0 (C:\Users\nagar\Development\Rust\projects\guessing_game)
+   Compiling guessing_game v0.1.0 (C:\Users\path\Development\Rust\projects\guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 7m 44s
 ```
 
@@ -227,9 +227,9 @@ cargo doc --open
  Documenting rand_core v0.6.3
  Documenting rand_chacha v0.3.1
  Documenting rand v0.8.5
- Documenting guessing_game v0.1.0 (C:\Users\nagar\Development\Rust\projects\guessing_game)
+ Documenting guessing_game v0.1.0 (C:\Users\path\Development\Rust\projects\guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 10.35s
-     Opening C:\Users\nagar\Development\Rust\projects\guessing_game\target\doc\guessing_game\index.html
+     Opening C:\Users\path\Development\Rust\projects\guessing_game\target\doc\guessing_game\index.html
 ```
 
 </details>
@@ -257,7 +257,7 @@ let guess: u32 =
 
 ``` rust
 cargo run
-   Compiling guessing_game v0.1.0 (C:\Users\nagar\Development\Rust\projects\guessing_game)
+   Compiling guessing_game v0.1.0 (C:\Users\path\Development\Rust\projects\guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 1.61s
      Running `target\debug\guessing_game.exe`
 Guess the number!
@@ -274,3 +274,385 @@ You won!
 
 </details>
 
+---
+
+## Chapter 3
+
+### Common Programming Concepts
+
+#### Variables and Mutability
+
+<details>
+<summary>cannot assign twice to immutable variable</summary>
+
+``` rust
+cargo run
+   Compiling variables v0.1.0 (C:\Users\path\Development\Rust\projects\variables)
+error[E0384]: cannot assign twice to immutable variable `x`
+ --> src\main.rs:5:5
+  |
+2 |     let x = 5;
+  |         -
+  |         |
+  |         first assignment to `x`
+  |         help: consider making this binding mutable: `mut x`
+...
+5 |     x = 6;
+  |     ^^^^^ cannot assign twice to immutable variable
+
+For more information about this error, try `rustc --explain E0384`.
+error: could not compile `variables` due to previous error
+```
+
+``` rust
+fn main() {
+    let mut x = 5;
+    println!("The value of x is: {}", x);
+
+    x = 6;
+    println!("The value of x is: {}", x);
+}
+```
+
+``` rust
+cargo run
+   Compiling variables v0.1.0 (C:\Users\path\Development\Rust\projects\variables)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.62s
+     Running `C:\Users\path\Development\Rust\projects\variables\target\debug\variables.exe`
+The value of x is: 5
+The value of x is: 6
+```
+
+</details>
+
+#### Constants
+
+<details>
+<summary>const</summary>
+
+``` rust
+const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+```
+
+</details>
+
+#### Shadowing
+
+<details>
+<summary>inner scope</summary>
+
+``` rust
+fn main() {
+    let a = 5;
+
+    let x = x + 1;
+
+    {
+        let x = x + 2;
+        println!("The value of x in the inner scope is: {}", a);
+    }
+
+    println!("The value of x is: {}", x);
+}
+```
+
+``` rust
+cargo run
+   Compiling variables v0.1.0 (C:\Users\nagar\Development\Rust\projects\variables)
+warning: unused variable: `x`
+  --> src\main.rs:13:13
+   |
+13 |         let x = x + 2;
+   |             ^ help: if this is intentional, prefix it with an underscore: `_x`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `variables` (bin "variables") generated 1 warning
+    Finished dev [unoptimized + debuginfo] target(s) in 1.43s
+     Running `C:\Users\nagar\Development\Rust\projects\variables\target\debug\variables.exe
+The value of x in the inner scope is: 5
+The value of x is: 7
+```
+
+</details>
+
+<details>
+<summary>same variable names deferent data types</summary>
+
+``` rust
+let spaces = "     ";
+    let spaces = spaces.len():
+
+    let mut spaces = "     ";
+    spaces = spaces.len();
+```
+
+``` rust
+cargo run
+   Compiling variables v0.1.0 (C:\Users\nagar\Development\Rust\projects\variables)
+error[E0308]: mismatched types
+  --> src\main.rs:23:14
+   |
+22 |     let mut spaces = "     ";
+   |                      ------- expected due to this value
+23 |     spaces = spaces.len();
+   |              ^^^^^^^^^^^^ expected `&str`, found `usize`
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `variables` due to previous error
+```
+
+</details>
+
+#### Data Types
+
+**Integer Types**
+
+|**Length**|**Signed**|**Unsigned**|
+| :---: | :--- | :--- |
+|8-bit|i8|u8|
+|16-bit|i16|u16|
+|32-bit|i32|u32|
+|64-bit|i64|u64|
+|128-bit|i28|u128|
+|arch|isize|usize|
+
+**Integer literals in Rust**
+
+|**Number Literals**|**Example**|
+|:---|---|
+|Decimal|98_222|
+|Hex|0xff|
+|Octal|0o77|
+|Binary|0b1111_0000|
+|Bytes(`u8` only)|b'A'|
+
+#### Floating-Point Types
+
+``` rust
+ let x = 2.0; // f64
+
+let y: f32 = 3.0; // f32
+```
+
+#### Numeric Operations
+
+<details>
+<summary>calculation</summary>
+
+``` rust
+// numeric operation
+    let sum = 5 + 10;
+
+    println!("Addition: {}", sum);
+
+    let difference = 95.5 - 4.3;
+
+    println!("Subtraction: {}", difference);
+
+    let product = 4 * 30;
+
+    println!("Multiplication: {}", product);
+
+    let quotient = 56.7 /32.2;
+    let floored = 2 /3;
+
+    println!("Division quotient: {}", quotient);
+    println!("Division floored: {}", floored);
+
+    let remainder = 43 % 5;
+
+    println!("Remainder: {}", remainder);
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+Addition: 15
+Subtraction: 91.2
+Multiplication: 120
+Division quotient: 1.7608695652173911
+Division floored: 0
+Remainder: 3
+```
+
+</details>
+
+#### Boolean Type
+
+<details>
+<summary>true / false</summary>
+
+``` rust
+let t = true;
+let f: bool = false; // with explicit type annotation
+```
+
+</details>
+
+#### Character Type
+
+`char` type is 4 bytes.
+`char` literals with single quotes `'` as opposed to `string` literals with double quotes `"`
+
+<details>
+<summary>char</summary>
+
+``` rust
+let c = 'z';
+let z = 'ℤ';
+let heart_eyed_cat = '😻';
+
+println!("{}, {}, {}", c, z, heart_eyed_cat);
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+z, ℤ, 😻
+```
+
+</details>
+
+#### Compound Types
+
+<details>
+<summary>tuple</summary>
+
+``` rust
+// tuple
+let tup: (i32, f64, u8) = (500, 6.4, 1);
+
+// println!(tup);
+
+let tuple = (500, 6.4, 1);
+
+let (x, y, z) = tuple;
+
+println!("The value of y is: {}, z is: {}, x is {}", y, z, x);
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+The value of y is: 6.4, z is: 1, x is 500
+```
+
+</details>
+
+<details>
+<summary>indexes in a tuple</summary>
+
+``` rust
+let x: (i32, f64, u8) = (500, 6.4, 1);
+
+let five_hundred = x.0; // index 0 element of tuple
+
+let six_point_four = x.1; // index 1 element of tuple
+
+let one = x.2;           // index 2 element of tuple
+
+println!("{}, {}, {}", &five_hundred, &six_point_four, &one);
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+500, 6.4, 1
+```
+
+</details>
+
+<details>
+<summary>Array</summary>
+
+``` rust
+let a = [1, 2, 3, 4, 5];
+
+    for e in a {
+        println!("{}", e);
+    }
+
+    let months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"];
+
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
+
+    let a = [3; 5];
+
+    for i in a {
+        println!("{}", i);
+    }
+
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+
+    println!("{}, {}", first, second);
+
+    let a = [1, 2, 3, 4, 5];
+
+    println!("Please enter an array index.");
+
+    let mut index = String::new();
+
+    io::stdin()
+        .read_line(&mut index)
+        .expect("Failed to read line...");
+
+    let index: usize = index
+        .trim()
+        .parse()
+        .expect("Index entered was not a number!!");
+
+    let element = a[index];
+
+    println!(
+        "The value of the element at index {} is: {}",
+        index, element
+    );
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+The value of y is: 6.4, z is: 1, x is 500
+500, 6.4, 1
+1
+2
+3
+4
+5
+3
+3
+3
+3
+3
+1, 2
+Please enter an array index.
+3
+The value of the element at index 3 is: 4
+Please enter an array index.
+7
+thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 7', src\main.rs:130:19
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: process didn't exit successfully: `C:\Users\nagar\Development\Rust\projects\variables\target\debug\variables.exe` (exit code: 101)
+```
+
+</details>
