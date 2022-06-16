@@ -429,11 +429,16 @@ error: could not compile `variables` due to previous error
 
 #### Floating-Point Types
 
+<details>
+<summary>Floating point</summary>
+
 ``` rust
- let x = 2.0; // f64
+let x = 2.0; // f64
 
 let y: f32 = 3.0; // f32
 ```
+
+</details>
 
 #### Numeric Operations
 
@@ -843,13 +848,153 @@ The value of x is 6
 
 There is nothing special.
 
-#### Control Flow
+### Control Flow
+
+#### if Expressions
 
 <details>
-<summary></summary>
+<summary>example</summary>
 
-``` 
+``` rust
+fn main() {
+    let number = 3;
+
+    if number < 5 {
+        println!("condition was true");
+    }
+    else {
+        println!("condition was false");
+    }
+
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.32s
+     Running `C:\Users\nagar\Development\Rust\projects\control_flow\target\debug\control_flow.exe`
+condition was true
+```
+
+</details>
+
+<details>
+<summary>evaluate equal is not true?</summary>
+
+> the condition in this code below must be a bool.
+> if condition isn't not bool,we'll got an error.
+
+It looks to be true...
+
+``` rust
+let number = 3;
+if number {
+        println!("The number was three");
+    }
+```
+
+</details>
+
+**Warning**
+> ***Rust will not automatically try to convert non-Boolean types to a Boolean.***
+> ***You must explicit and always provide if with a Boolean as its condition.***
+
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+error[E0308]: mismatched types
+  --> src\main.rs:11:8
+   |
+11 |     if number {
+   |        ^^^^^^ expected `bool`, found integer
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `control_flow` due to previous error
+```
+
+</details>
+
+#### Using if in let statement
+
+<details>
+<summary>if in let</summary>
+
+``` rust
+fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+
+    println!("TThe value of number is {}", number);
+}
+```
+
+</details>
+
+<details>
+<summary>ersults</summary>
+
+``` rust
+gar in src on   dev
+❯ cargo run
+   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.11s
+     Running `C:\Users\nagar\Development\Rust\projects\control_flow\target\debug\control_flow.exe`
+The value of number is 5
+```
+
+</details>
+
+<details>
+<summary>if must be the same type</summary>
+
+``` rust
+fn main() {
+    let number = if condition { 5 } else [ "six" ];
+
+    println!("The value of number is {}", number);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+error[E0308]: `if` and `else` have incompatible types
+  --> src\main.rs:38:44
+   |
+38 |     let number = if condition { 5 } else { "six" };
+   |                                 -          ^^^^^ expected integer, found `&str`
+   |                                 |
+   |                                 expected because of this
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `control_flow` due to previous error
+```
+
+</details>
+
+#### Repetition with Loop
+
+<details>
+<summary>Repeating with loop</summary>
+
+``` rust
 
 ```
 
 </details>
+
