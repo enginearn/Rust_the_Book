@@ -358,7 +358,7 @@ fn main() {
 
 ``` rust
 cargo run
-   Compiling variables v0.1.0 (C:\Users\nagar\Development\Rust\projects\variables)
+   Compiling variables v0.1.0 (C:\Users\path\to\\Development\Rust\projects\variables)
 warning: unused variable: `x`
   --> src\main.rs:13:13
    |
@@ -369,7 +369,7 @@ warning: unused variable: `x`
 
 warning: `variables` (bin "variables") generated 1 warning
     Finished dev [unoptimized + debuginfo] target(s) in 1.43s
-     Running `C:\Users\nagar\Development\Rust\projects\variables\target\debug\variables.exe
+     Running `C:\Users\path\to\\Development\Rust\projects\variables\target\debug\variables.exe
 The value of x in the inner scope is: 5
 The value of x is: 7
 ```
@@ -389,7 +389,7 @@ let spaces = "     ";
 
 ``` rust
 cargo run
-   Compiling variables v0.1.0 (C:\Users\nagar\Development\Rust\projects\variables)
+   Compiling variables v0.1.0 (C:\Users\path\to\\Development\Rust\projects\variables)
 error[E0308]: mismatched types
   --> src\main.rs:23:14
    |
@@ -495,8 +495,8 @@ let f: bool = false; // with explicit type annotation
 
 #### Character Type
 
-`char` type is 4 bytes.
-`char` literals with single quotes `'` as opposed to `string` literals with double quotes `"`
+> `char` type is 4 bytes.
+> `char` literals with single quotes `'` as opposed to `string` literals with double quotes `"`
 
 <details>
 <summary>char</summary>
@@ -652,7 +652,204 @@ Please enter an array index.
 7
 thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 7', src\main.rs:130:19
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-error: process didn't exit successfully: `C:\Users\nagar\Development\Rust\projects\variables\target\debug\variables.exe` (exit code: 101)
+error: process didn't exit successfully: `C:\Users\path\to\\Development\Rust\projects\variables\target\debug\variables.exe` (exit code: 101)
+```
+
+</details>
+
+#### Parameters
+
+<details>
+<summary>call function</summary>
+
+``` rust
+fn main() {
+    println!("Hello, world!");
+
+    another_function_1();
+    another_function_2(5);
+}
+
+fn another_function_1() {
+    println!("Another function!");
+}
+
+fn another_function_2(x: i32) {
+    println!("The value of x is {}", x);
+}
+
+// called outside of main() doesn't work
+// another_function_2::(6);
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+❯ cargo run
+   Compiling functions v0.1.0 (C:\Users\path\to\\Development\Rust\projects\functions)
+error: expected one of `!` or `::`, found `(`
+  --> src\main.rs:16:19
+   |
+16 | another_function_2(6);
+   |                   ^ expected one of `!` or `::`
+
+error: could not compile `functions` due to previous error
+```
+
+</details>
+
+#### Statements and Expressions
+
+<details>
+<summary>Statement</summary>
+
+``` rust
+let y = 6; // This is a statement
+
+    let x = (let y = 6); // got an error
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling functions v0.1.0 (C:\Users\nagar\Development\Rust\projects\functions)
+error: expected expression, found statement (`let`)
+  --> src\main.rs:10:14
+   |
+10 |     let x = (let y = 6);
+   |              ^^^^^^^^^
+   |
+   = note: variable declaration using `let` is a statement
+
+error[E0658]: `let` expressions in this position are unstable
+  --> src\main.rs:10:14
+   |
+10 |     let x = (let y = 6);
+   |              ^^^^^^^^^
+   |
+   = note: see issue #53667 <https://github.com/rust-lang/rust/issues/53667> for more information
+
+warning: unnecessary parentheses around assigned value
+  --> src\main.rs:10:13
+   |
+10 |     let x = (let y = 6);
+   |             ^         ^
+   |
+   = note: `#[warn(unused_parens)]` on by default
+help: remove these parentheses
+   |
+10 -     let x = (let y = 6);
+10 +     let x = let y = 6;
+   | 
+
+For more information about this error, try `rustc --explain E0658`.
+warning: `functions` (bin "functions") generated 1 warning
+error: could not compile `functions` due to 2 previous errors; 1 warning emitted
+```
+
+</details>
+
+Other languages such as C lang, Ruby, you can write `x = y = 6` and the result is `x` and `y` assigned 6.
+it does'nt work in Rust.
+
+<details>
+<summary>Expression</summary>
+
+``` rust
+let y = {
+        let x = 3;
+        x + 1 // it does'nt have a semicolon
+    };
+```
+
+> **Warning**
+> Expressions do not include ending semicolons. If you add a semicolon to the end of an expression,
+> you turn it into a statement, and it will then not return a value.
+> Keep in mind as you explore ***function return values and expressions next.***
+
+</details>
+
+#### Functions with Return Values
+
+<details>
+<summary>Return value</summary>
+
+``` rust
+fn five() -> i32 {
+    5
+}
+
+fn main() {
+    let x = five();
+
+    println!("The value of x is: {}", x);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling functions v0.1.0 (C:\Users\nagar\Development\Rust\projects\functions)
+   Finished dev [unoptimized + debuginfo] target(s) in 1.43s
+     Running `C:\Users\nagar\Development\Rust\projects\functions\target\debug\functions.exe`
+The value of x is: 5
+```
+
+</details>
+
+<details>
+<summary>another example</summary>
+
+``` rust
+fn main() {
+    let x = plus_one(5);
+
+    println!("The value of x is {}", x);
+}
+
+fn plus_one(x: i32) -> i32 {
+    // x + 1; // rustc -suggested help: consider removing this semicolon.
+    x + 1 // without a semicolon, it became it works correctly
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling functions v0.1.0 (C:\Users\nagar\Development\Rust\projects\functions)
+   Finished dev [unoptimized + debuginfo] target(s) in 1.22s
+     Running `C:\Users\nagar\Development\Rust\projects\functions\target\debug\functions.exe`
+The value of x is 6
+```
+
+</details>
+
+#### Comments
+
+There is nothing special.
+
+#### Control Flow
+
+<details>
+<summary></summary>
+
+``` 
+
 ```
 
 </details>
