@@ -993,7 +993,182 @@ error: could not compile `control_flow` due to previous error
 <summary>Repeating with loop</summary>
 
 ``` rust
+fn main() {
+    loop {
+        println!("Hello, world!");
+    }
+}
+```
 
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+Hello, world!
+```
+
+</details>
+
+<details>
+<summary>nested loops</summary>
+
+``` rust
+fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {}", count);
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {}", remaining);
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+        count += 1;
+    }
+    println!("End count = {}", count);
+}
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.20s
+     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+count = 0
+remaining = 10
+remaining = 9
+count = 1
+remaining = 10
+remaining = 9
+count = 2
+remaining = 10
+End count = 2
+```
+
+</details>
+
+#### Returning Values from Loops
+
+<details>
+<summary>Return value</summary>
+
+``` rust
+let mut  counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+    println!("The result is {}", result)
+```
+
+</details>
+
+<details>
+<summary>resukt</summary>
+
+``` rust
+cargo run
+   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.90s
+     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+The result is 20
+```
+
+</details>
+
+#### Conditional Loops with While
+
+<details>
+<summary>while</summary>
+
+``` rust
+fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{}!", number);
+
+        number -= 1;
+    }
+    println!("LIFTOFF!");
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.87s
+     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+3!
+2!
+1!
+LIFTOFF!
+```
+
+</details>
+
+#### Looping Through a Collection with for
+
+<details>
+<summary>Loop with compound types</summary>
+
+``` rust
+
+```
+
+</details>
+
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.64s
+     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+The value is: 10
+The value is: 20
+The value is: 30
+The value is: 40
+The value is: 50
 ```
 
 </details>
