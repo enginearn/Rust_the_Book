@@ -724,7 +724,7 @@ let y = 6; // This is a statement
 
 ``` rust
 cargo run
-   Compiling functions v0.1.0 (C:\Users\nagar\Development\Rust\projects\functions)
+   Compiling functions v0.1.0 (C:\Users\path\to\Development\Rust\projects\functions)
 error: expected expression, found statement (`let`)
   --> src\main.rs:10:14
    |
@@ -805,9 +805,9 @@ fn main() {
 
 ``` rust
 cargo run
-   Compiling functions v0.1.0 (C:\Users\nagar\Development\Rust\projects\functions)
+   Compiling functions v0.1.0 (C:\Users\path\to\Development\Rust\projects\functions)
    Finished dev [unoptimized + debuginfo] target(s) in 1.43s
-     Running `C:\Users\nagar\Development\Rust\projects\functions\target\debug\functions.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\functions\target\debug\functions.exe`
 The value of x is: 5
 ```
 
@@ -836,9 +836,9 @@ fn plus_one(x: i32) -> i32 {
 
 ``` rust
 cargo run
-   Compiling functions v0.1.0 (C:\Users\nagar\Development\Rust\projects\functions)
+   Compiling functions v0.1.0 (C:\Users\path\to\Development\Rust\projects\functions)
    Finished dev [unoptimized + debuginfo] target(s) in 1.22s
-     Running `C:\Users\nagar\Development\Rust\projects\functions\target\debug\functions.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\functions\target\debug\functions.exe`
 The value of x is 6
 ```
 
@@ -876,9 +876,9 @@ fn main() {
 
 ``` rust
 cargo run
-   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+   Compiling control_flow v0.1.0 (C:\Users\path\to\Development\Rust\projects\control_flow)
     Finished dev [unoptimized + debuginfo] target(s) in 1.32s
-     Running `C:\Users\nagar\Development\Rust\projects\control_flow\target\debug\control_flow.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\control_flow\target\debug\control_flow.exe`
 condition was true
 ```
 
@@ -911,7 +911,7 @@ if number {
 
 ``` rust
 cargo run
-   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+   Compiling control_flow v0.1.0 (C:\Users\path\to\Development\Rust\projects\control_flow)
 error[E0308]: mismatched types
   --> src\main.rs:11:8
    |
@@ -946,9 +946,9 @@ fn main() {
 ``` rust
 gar in src on   dev
 ❯ cargo run
-   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+   Compiling control_flow v0.1.0 (C:\Users\path\to\Development\Rust\projects\control_flow)
     Finished dev [unoptimized + debuginfo] target(s) in 1.11s
-     Running `C:\Users\nagar\Development\Rust\projects\control_flow\target\debug\control_flow.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\control_flow\target\debug\control_flow.exe`
 The value of number is 5
 ```
 
@@ -972,7 +972,7 @@ fn main() {
 
 ``` rust
 cargo run
-   Compiling control_flow v0.1.0 (C:\Users\nagar\Development\Rust\projects\control_flow)
+   Compiling control_flow v0.1.0 (C:\Users\path\to\Development\Rust\projects\control_flow)
 error[E0308]: `if` and `else` have incompatible types
   --> src\main.rs:38:44
    |
@@ -1059,9 +1059,9 @@ fn main() {
 
 ``` rust
 cargo run
-   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+   Compiling loops v0.1.0 (C:\Users\path\to\Development\Rust\projects\loops)
     Finished dev [unoptimized + debuginfo] target(s) in 1.20s
-     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\loops\target\debug\loops.exe`
 count = 0
 remaining = 10
 remaining = 9
@@ -1100,9 +1100,9 @@ let mut  counter = 0;
 
 ``` rust
 cargo run
-   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+   Compiling loops v0.1.0 (C:\Users\path\to\Development\Rust\projects\loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.90s
-     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\loops\target\debug\loops.exe`
 The result is 20
 ```
 
@@ -1133,9 +1133,9 @@ fn main() {
 
 ``` rust
 cargo run
-   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+   Compiling loops v0.1.0 (C:\Users\path\to\Development\Rust\projects\loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.87s
-     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\loops\target\debug\loops.exe`
 3!
 2!
 1!
@@ -1161,14 +1161,382 @@ LIFTOFF!
 
 ``` rust
 cargo run
-   Compiling loops v0.1.0 (C:\Users\nagar\Development\Rust\projects\loops)
+   Compiling loops v0.1.0 (C:\Users\path\to\Development\Rust\projects\loops)
     Finished dev [unoptimized + debuginfo] target(s) in 1.64s
-     Running `C:\Users\nagar\Development\Rust\projects\loops\target\debug\loops.exe`
+     Running `C:\Users\path\to\Development\Rust\projects\loops\target\debug\loops.exe`
 The value is: 10
 The value is: 20
 The value is: 30
 The value is: 40
 The value is: 50
+```
+
+</details>
+
+## Chapter 4
+
+### Ownership
+
+#### Ownership Rules
+
+- Each value in Rust has a variable that's called owner.
+- There can only be one owner at a time.
+- When the owner goes out of scope, the value will be dropped.
+
+#### The String Type
+
+<details>
+<summary>String::from("hello");</summary>
+
+> The double colon `::` operator allows us to namespace thsi particular from function
+> under the `String` type rather than using some sort of name like `string_from`.
+
+
+``` rust
+fn main() {
+    let s = "hello";
+    let S = String::from("hello");
+    let mut m_S = String::from("hello");
+
+    m_S.push_str(", world!");
+
+    println!("from m_S: {}", m_S);
+
+    // drop function works around from here
+}   // to here!
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+warning: unused variable: `s`
+ --> src\main.rs:2:9
+  |
+2 |     let s = "hello";
+  |         ^ help: if this is intentional, prefix it with an underscore: `_s`
+  |
+  = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `S`
+ --> src\main.rs:3:9
+  |
+3 |     let S = String::from("hello");
+  |         ^ help: if this is intentional, prefix it with an underscore: `_S`
+
+warning: variable `S` should have a snake case name
+ --> src\main.rs:3:9
+  |
+3 |     let S = String::from("hello");
+  |         ^ help: convert the identifier to snake case (notice the capitalization): `s`
+  |
+  = note: `#[warn(non_snake_case)]` on by default
+
+warning: variable `m_S` should have a snake case name
+ --> src\main.rs:4:13
+  |
+4 |     let mut m_S = String::from("hello");
+  |             ^^^ help: convert the identifier to snake case (notice the capitalization): `m_s`
+
+warning: `ownership` (bin "ownership") generated 4 warnings
+    Finished dev [unoptimized + debuginfo] target(s) in 1.66s
+     Running `C:\Users\path\to\Development\Rust\projects\ownership\target\debug\ownership.exe`
+from m_S: hello, world!
+```
+
+</details>
+
+#### Memory and Allocation
+
+#### Ways Valiables and Data Interact: Move
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+
+fn main() {
+    let s1 = String::from("hello");
+    let s2 = s1;
+
+    println!("{}, world!", s1);
+}
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+warning: unused variable: `s2`
+  --> src\main.rs:14:9
+   |
+14 |     let s2 = s1;
+   |         ^^ help: if this is intentional, prefix it with an underscore: `_s2`
+
+error[E0382]: borrow of moved value: `s1`
+  --> src\main.rs:16:28
+   |
+13 |     let s1 = String::from("hello");
+   |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+14 |     let s2 = s1;
+   |              -- value moved here
+15 | 
+16 |     println!("{}, world!", s1);
+   |                            ^^ value borrowed here after move
+   |
+   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0382`.
+warning: `ownership` (bin "ownership") generated 4 warnings
+error: could not compile `ownership` due to previous error; 4 warnings emitted
+```
+
+</details>
+
+<details>
+<summary>`clone` creates a deep copy</summary>
+
+``` rust
+fn main() {
+    let s1 = String::from("hello");
+    let s2 = s1.clone(); // `clone` creates a deep copy of s1
+
+    println!("s1 = {}, s2 = {}", s1, s2);
+
+    // drop function works around from here
+}   // to here!
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+ cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+   Finished dev [unoptimized + debuginfo] target(s) in 1.62s
+     Running `C:\Users\path\to\Development\Rust\projects\ownership\target\debug\ownership.exe`
+from m_S: hello, world!
+s1 = hello, s2 = hello too!
+```
+
+</details>
+
+#### Ownership and Functions
+
+<details>
+<summary>How Ownership works</summary>
+
+``` rust
+fn main() {
+
+    let s = String::from("hello");
+
+    takes_ownership(s);
+
+    let x = 5;
+
+    makes_copy(x);
+
+} // drop function works here! x goes out of space, then s, But because s's value was moved,
+  // nothing special happens.
+
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("some_string is '{}'", some_string);
+} // some_string goes out of scope and `drop` function is called.
+  //The backing memory is free!
+
+  fn makes_copy(some_integer: i32) { // some_integer comes into scope
+    println!("ome_integer is '{}'", some_integer);
+} // some_integer goes out of scope. Nothing special happens.
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+   Finished dev [unoptimized + debuginfo] target(s) in 1.44s
+     Running `C:\Users\path\to\Development\Rust\projects\ownership\target\debug\ownership.exe`
+from m_S: hello, world!
+x = 5, y = 5
+s1 = hello, s2 = hello too!
+some_string is 'hello'
+ome_integer is '5'
+```
+
+</details>
+
+<details>
+<summary>Tries to use `s` after the call `takes_ownership`</summary>
+
+``` rust
+fn main() {
+
+    let s = String::from("hello");
+    let x = s;
+
+    println!("This x assigned s before taking ownership : {}", x);
+    takes_ownership(s);
+
+    // println!("This x assigned s after taking ownership : {}", x);
+
+    let x = 5;
+
+    makes_copy(x);
+
+} // drop function works here! x goes out of space, then s, But because s's value was moved,
+  // nothing special happens.
+
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("some_string is '{}'", some_string);
+} // some_string goes out of scope and `drop` function is called.
+  //The backing memory is free!
+
+  fn makes_copy(some_integer: i32) { // some_integer comes into scope
+    println!("ome_integer is '{}'", some_integer);
+} // some_integer goes out of scope. Nothing special happens.
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0382]: use of moved value: `s`
+  --> src\main.rs:30:21
+   |
+25 |     let s = String::from("hello");
+   |         - move occurs because `s` has type `String`, which does not implement the `Copy` trait
+26 |     let x = s;
+   |             - value moved here
+...
+30 |     takes_ownership(s);
+   |                     ^ value used here after move
+For more information about this error, try `rustc --explain E0382`.
+warning: `ownership` (bin "ownership") generated 3 warnings
+error: could not compile `ownership` due to previous error; 3 warnings emitted
+```
+
+</details>
+
+#### Return Values and Scope
+
+<details>
+<summary>Return Values</summary>
+
+``` rust
+fn main() {
+    let s1 = gives_ownership();        // gives_ownership moves its return value into s1
+
+    let s2 = String::from("hello");    // s2 comes into scope
+
+    let s3 = takes_and_gives_back(s2); // s2 is moved into takes_and_gives_back,
+                                       // which also moves its return value into s3
+
+    println!("what returned value inside s1 is {}", s1);
+    println!("what returned value inside s2 is {}", s2); // value borrowed here after move
+    println!("what returned value inside s3 is {}", s3);
+}
+
+fn gives_ownership() -> String {             // gives_ownership will move its
+                                             // return value into the function
+                                             // that calls it.
+
+    let some_string = String::from("yours"); // some_string comes into scope
+
+    some_string                              // some_string is returned and
+                                             // moves out to the calling function
+}
+
+fn takes_and_gives_back(a_string: String) -> String { // a_string comes into scope
+    a_string // a_string is returned and moves out to the calling function
+}
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0382]: borrow of moved value: `s2`
+  --> src\main.rs:47:53
+   |
+41 |     let s2 = String::from("hello");    // s2 comes into scope
+   |         -- move occurs because `s2` has type `String`, which does not implement the `Copy` trait
+42 | 
+43 |     let s3 = takes_and_gives_back(s2); // s2 is moved into takes_and_gives_back,
+   |                                   -- value moved here
+...
+47 |     println!("what returned value inside s2 is {}", s2);
+   |                                                     ^^ value borrowed here after move
+   |
+   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0382`.
+warning: `ownership` (bin "ownership") generated 3 warnings
+error: could not compile `ownership` due to previous error; 3 warnings emitted
+```
+
+</details>
+
+<details>
+<summary>return multiple values using a tuple</summary>
+
+``` rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let (s2, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s2, len);
+}
+
+fn calculate_length(s: String) -> (String, usize) {
+    let length = s.len(); // len() returns the length of a string
+    (s, length)
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+The length of 'hello' is 5.
+```
+
+</details>
+
+#### References and Borrowing
+
+<details>
+<summary></summary>
+
+``` 
+
 ```
 
 </details>
