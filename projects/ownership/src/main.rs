@@ -53,6 +53,68 @@ fn main() {
 
     println!("The length of '{}' is {}.", s2, len);
 
+    let s1 = String::from("hello");
+    let len = calculate_length_ref(&s1);
+
+    println!("Ref: The length of '{}' is {}", s1, len);
+
+    let mut s = String::from("hello");
+
+    change(&mut s);
+
+    println!("{} from change!", &mut s);
+
+    let mut s = String::from("hello");
+
+    // let r1 = &mut s;
+    // let r2 = &mut s;
+
+    // println!("{}, {}", r1, r2);
+
+    { // As always, we can use curly brackets `{}` to create a new scope,
+      // allowing for multiple mutable references, just not simultaneous ones:
+        let r1 = &mut s;
+
+        println!("This is a inside value '{}' of r1!", r1);
+    } // r1 goes out of scope here, so we can make a new reference with no problems
+
+    let r2 = &mut s;
+
+    println!("A value inside &mut s borrowed from r1 is '{}'!!", r2);
+
+    let mut s = String::from("hello");
+
+    let r1 = &s;     // no problem
+    let r2 = &s;     // no problem
+    println!("'{}' from r1 and '{}' from r2!!", r1, r2);
+    // variable r1 and r2 will not be used after this point
+
+    let r3 = &mut s; // BIG problem was gone
+
+    println!("'{}' from r3!!!", r3);
+
+    let reference_to_nothing = dangle();
+
+    let mut s = String::from("hello world!");
+
+    let word = first_word(&s); // word will get the value 5
+
+    s.clear(); // this empties the String, making it equal to ""
+
+    println!("word has a meaningless value '{}'? \nThis code will be error prone...", word);
+
+    let s = String::from("hello world!");
+
+    let hello = &s[0..5];
+    let world = &s[6..11];
+    let ex = &s[11..12];
+
+    println!("hello: {}, world: {}", hello, world);
+    println!("hello: {}, world: {} and ex: {}", hello, world, ex);
+
+    // word still has the value 5 here, but there's no more string that
+    // we could meaningfull use the value 5 with. word is now totally invalid!
+
 } // drop function works here! x goes out of space, then s, But because s's value was moved,
   // nothing special happens.
   // s3 goes out of scope and is dropped. s2 was moved, so nothing happens.
@@ -63,7 +125,7 @@ fn takes_ownership(some_string: String) { // some_string comes into scope
 } // some_string goes out of scope and `drop` function is called.
   //The backing memory is free!
 
-  fn makes_copy(some_integer: i32) { // some_integer comes into scope
+fn makes_copy(some_integer: i32) { // some_integer comes into scope
     println!("ome_integer is '{}'", some_integer);
 } // some_integer goes out of scope. Nothing special happens.
 
@@ -85,3 +147,38 @@ fn calculate_length(s: String) -> (String, usize) {
     let length = s.len(); // len() returns the length of a string
     (s, length)
 }
+
+fn calculate_length_ref(s: &String) -> usize { // s is a reference to a String
+    s.len()
+} // s goes out of scope. But because it does not have ownership of
+  // what it refers to, nothing happens.
+
+fn change(some_string: &mut String) // <- change immutable to mutable
+{
+    some_string.push_str(", world!");
+}
+
+// Let's change reference s to s directly!
+fn dangle() -> String { // dangle returns a reference to a string
+    let s = String::from("hello"); // s is a new String
+
+    //&s // we return a reference to the String, s
+    s   // Let's change reference s to s directly!
+} // s goes out of scope, and is dropped. Its memory goes away.
+  // DANGER!! was gone!!!!
+
+fn first_word(s: &String) -> usize {
+let bytes = s.as_bytes();
+
+for (i, &item) in bytes.iter().enumerate() {
+    if item == b' ' {
+        return i;
+    }
+}
+
+s.len()
+}
+
+// fn second_word(s: &String) -> (usize, usize) {
+
+// }
