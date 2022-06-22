@@ -846,7 +846,145 @@ The value of x is 6
 
 #### Comments
 
-There is nothing special.
+~~There is nothing special.~~
+
+> Warning
+> DO NOT LEAVE COMMENTS STRANGE AREA!
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+
+    println!("{} from change!", &mut s);
+}
+
+fn change(some_string: &mut String // <- change immutable to mutable) {
+    some_string.push_str(", world!");
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error: expected one of `!`, `(`, `)`, `,`, `::`, or `<`, found `some_string`
+   --> src\main.rs:109:10
+    |
+109 | fn change(some_string: &mut String // <- change immutable to mutable) {
+    |          ^ unclosed delimiter     - help: `)` may belong here
+110 |     some_string.push_str(", world!");
+    |     ^^^^^^^^^^^
+
+error: expected one of `->`, `where`, or `{`, found `some_string`
+   --> src\main.rs:110:5
+    |
+109 | fn change(some_string: &mut String // <- change immutable to mutable) {
+    |                                   - expected one of `->`, `where`, or `{`
+110 |     some_string.push_str(", world!");
+    |     ^^^^^^^^^^^ unexpected token
+
+error: could not compile `ownership` due to 2 previous errors
+```
+
+</details>
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+
+    println!("{} from change!", &mut s);
+}
+
+fn change(some_string: &mut String)// <- change immutable to mutable {
+    some_string.push_str(", world!");
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error: unexpected closing delimiter: `}`
+   --> src\main.rs:111:1
+    |
+104 | fn calculate_length_ref(s: &String) -> usize { // s is a reference to a String
+    |                                              - this opening brace...
+105 |     s.len()
+106 | } // s goes out of scope. But because it does not have ownership of
+    | - ...matches this closing brace
+...
+111 | }
+    | ^ unexpected closing delimiter
+
+error: could not compile `ownership` due to previous error
+```
+
+</details>
+
+<details>
+<summary>this works correctly!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+
+    println!("{} from change!", &mut s);
+}
+
+fn change(some_string: &mut String) { // <- change immutable to mutable
+    some_string.push_str(", world!");
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+hello, world! from change!
+```
+
+</details>
+
+If you want to leave comments after the brace, you need to beginning an a new line.
+
+<details>
+<summary>this works correctly too!</summary>
+
+``` rust
+fn change(some_string: &mut String) // <- change immutable to mutable
+{
+    some_string.push_str(", world!");
+}
+```
+
+</details>
+
+<br>
+
+I use `Python` mainly so I'm not familiar with parentheses `()`, curly braces `{}`, and semicolons`;` yet
+especially the start writing codes of functions...
 
 ### Control Flow
 
@@ -1533,11 +1671,394 @@ The length of 'hello' is 5.
 #### References and Borrowing
 
 <details>
-<summary></summary>
+<summary>get return values using reference</summary>
 
-``` 
+``` rust
+fn main() {
+    let s1 = String::from("hello");
+    let len = calculate_length_ref(&s1);
+
+    println!("Ref: The length of '{}' is {}", s1, len);
+}
+
+fn calculate_length_ref(s: &String) -> usize {
+    s.len()
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+Ref: The length of 'hello' is 5
+```
+
+</details>
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String) {
+some_string.push_str(", world!");
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+--> src\main.rs:104:1
+    |
+103 | fn change(some_string: &String) {
+    |                        ------- help: consider changing this to be a mutable reference: `&mut String`
+104 | some_string.push_str(", world!");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `some_string` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+warning: `ownership` (bin "ownership") generated 3 warnings
+error: could not compile `ownership` due to previous error; 3 warnings emitted
+```
+
+</details>
+
+#### Mutable References
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let s = String::from("hello");
+
+    change(&s);
+
+    println!("{} from change!", &s);
+}
+
+fn change(some_string: &String) {
+some_string.push_str(", world!");
+}
 
 ```
 
 </details>
 
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+   --> src\main.rs:108:1
+    |
+107 | fn change(some_string: &String) {
+    |                        ------- help: consider changing this to be a mutable reference: `&mut String`
+108 | some_string.push_str(", world!");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `some_string` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+warning: `ownership` (bin "ownership") generated 3 warnings
+```
+
+</details>
+
+<details>
+<summary></summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+
+    println!("{} from change!", &mut s);
+}
+
+fn change(some_string: &mut String) { // <- change immutable to mutable
+    some_string.push_str(", world!");
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+hello, world! from change!
+```
+
+</details>
+
+<br>
+
+> __Mutable references have one big restriction:__
+> __you can have only one mutable reference to a particular piece of data at a time.__
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    let r2 = &mut s;
+
+    println!("{}, {}", r1, r2);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0499]: cannot borrow `s` as mutable more than once at a time
+  --> src\main.rs:70:14
+   |
+69 |     let r1 = &mut s;
+   |              ------ first mutable borrow occurs here
+70 |     let r2 = &mut s;
+   |              ^^^^^^ second mutable borrow occurs here
+71 | 
+72 |     println!("{}, {}", r1, r2);
+   |                        -- first borrow later used here
+
+For more information about this error, try `rustc --explain E0499`.
+warning: `ownership` (bin "ownership") generated 3 warnings
+error: could not compile `ownership` due to previous error; 3 warnings emitted
+```
+
+</details>
+
+<br>
+
+> A `data race` is similar to a race condition and happens when these three behaviors occur:
+
+- Two or more pointers access the same data at the same time.
+- At least one of the pointers is being used to write to the data.
+- There's no mechanism being used to synchronize access to the data.
+
+> Data races cause undefined behavior and can be difficult to diagnose and fix
+> when you're trying to track them down at runtime; Rust prevents this problem by
+> refusing to compile cade with data races!
+
+<br>
+
+[データ競合(data race)と競合状態(race condition)を混同しない](https://qiita.com/yohhoy/items/00c6911aa045ef5729c6)
+
+<details>
+<summary>Borrowed a value</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    { // As always, we can use curly brackets `{}` to create a new scope,
+      // allowing for multiple mutable references, just not simultaneous ones:
+        let r1 = &mut s;
+
+        println!("This is a inside value '{}' of r1!", r1);
+    } // r1 goes out of scope here, so we can make a new reference with no problems
+
+    let r2 = &mut s;
+
+    println!("A value inside &mut s borrowed from r1 is '{}'!!", r2);
+}
+```
+
+</details>
+
+<details>
+<summary>rsults</summary>
+
+``` rust
+This is a inside value 'hello' of r1!
+A value inside &mut s borrowed from r1 is 'hello'!!
+```
+
+</details>
+
+<br>
+
+> Rust enforces a similar rule for combining mutable and immutable references.
+> This code results in an error:
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &s;     // no problem
+    let r2 = &s;     // no problem
+    let r3 = &mut s; // BIG problem
+
+    println!("{}, {}, and {}", r1, r2, r3);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+  --> src\main.rs:89:14
+   |
+87 |     let r1 = &s;     // no problem
+   |              -- immutable borrow occurs here
+88 |     let r2 = &s;     // no problem
+89 |     let r3 = &mut s; // BIG problem
+   |              ^^^^^^ mutable borrow occurs here
+90 |
+91 |     println!("{}, {}, and {}", r1, r2, r3);
+   |                                -- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+warning: `ownership` (bin "ownership") generated 3 warnings
+error: could not compile `ownership` due to previous error; 3 warnings emitted
+```
+
+</details>
+
+<br>
+
+> Whew! We also cannot have a mutable reference while we have an immutable one to the same value.
+> Users of an immutable reference don't expect the value to suddenly change out from under them!
+> However, multiple immutable references are allowed because no one who is just reading the data
+> has the ability to affect anyone else's reading the data.
+
+<details>
+<summary>this works correctly!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &s;     // no problem
+    let r2 = &s;     // no problem
+    println!("'{}' from r1 and '{}' from r2!!", r1, r2);
+    // variable r1 and r2 will not be used after this point
+
+    let r3 = &mut s; // BIG problem was gone
+
+    println!("'{}' from r3!!!", r3);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+'hello' from r1 and 'hello' from r2!!
+'hello' from r3!!!
+```
+
+</details>
+
+<br>
+
+[Announcing Rust 1.31 and Rust 2018](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes)
+
+[Non-Lexical Lifetimes](https://qiita.com/_EnumHack/items/8b6ecdeb52e69a4ff384)
+
+#### Dangling References
+
+> A ___`dangling pointer`___ --a pointer that erferences a location in memory
+> that may have been given to someone else--by freeing some memory while preserving a pointer to that memory.
+> In Rust, by contract, the compiler guarantees that references will never be dangling references:
+> if you have a reference to some data, the compiler will ensure that the data will not go out of scope
+> before the reference to the data does.
+
+<details>
+<summary>go an error!</summary>
+
+``` rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0106]: missing lifetime specifier
+   --> src\main.rs:141:16
+    |
+141 | fn dangle() -> &String {
+    |                ^ expected named lifetime parameter
+    |
+    = help: this function's return type contains a borrowed value, but there is no value for it to be borrowed from
+help: consider using the `'static` lifetime
+    |
+141 | fn dangle() -> &'static String {
+    |                ~~~~~~~~
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `ownership` due to previous error
+```
+
+</details>
+
+<details>
+<summary>returning valiable String directly</summary>
+
+``` rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+// Let's change reference s to s directly!
+fn dangle() -> String { // dangle returns a reference to a string
+    let s = String::from("hello"); // s is a new String
+
+    //&s // we return a reference to the String, s
+    s   // Let's change reference s to s directly!
+} // s goes out of scope, and is dropped. Its memory goes away.
+  // DANGER!! was gone!!!!
+```
+
+</details>
+
+<br>
+
+> **The Rules of References**
+> Let's recap what we've discussed about references:
+> - At any given time, you can have either one mutable reference or any number of immutable references.
+> References must always be valid.
+
+#### The Slice Type
+
+> ***Slice*** let you reference a contiguous sequence of elements in a collection rather than the whole collection.
+> A slice is a kind of reference, so it does not have ownership.
