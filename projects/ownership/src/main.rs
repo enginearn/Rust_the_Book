@@ -97,7 +97,7 @@ fn main() {
 
     let mut s = String::from("hello world!");
 
-    let word = first_word(&s); // word will get the value 5
+    let word = first_word_1(&s); // word will get the value 5
 
     s.clear(); // this empties the String, making it equal to ""
 
@@ -109,11 +109,32 @@ fn main() {
     let world = &s[6..11];
     let ex = &s[11..12];
 
-    println!("hello: {}, world: {}", hello, world);
-    println!("hello: {}, world: {} and ex: {}", hello, world, ex);
+    println!("hello: '{}', world: '{}'", hello, world);
+    println!("hello: '{}', world: '{}' and ex: '{}'", hello, world, ex);
 
     // word still has the value 5 here, but there's no more string that
     // we could meaningfull use the value 5 with. word is now totally invalid!
+
+    let s = String::from("hello");
+    let len = s.len();
+
+    let slice1 = &s[0..2];
+    let slice2 = &s[..2];
+    let slice3 = &s[3..len];
+    let slice4 = &s[3..];
+    let slice5 = &s[0..len];
+    let slice6 = &s[..];
+    
+    println!("slice1 &s[0..2]: {}", slice1);
+    println!("slice2 &s[..2]: {}", slice2);
+    println!("slice3 &s[3..len]: {}", slice3);
+    println!("slice4 &s[3..]: {}", slice4);
+    println!("slice5 &s[0..len]: {}", slice5);
+    println!("slice6 &s[..]: {}", slice6);
+
+    let word2 = String::from("dangling pointer");
+    let f_w_2 = first_word_2(&word2);
+    println!("{}", f_w_2);
 
 } // drop function works here! x goes out of space, then s, But because s's value was moved,
   // nothing special happens.
@@ -167,18 +188,28 @@ fn dangle() -> String { // dangle returns a reference to a string
 } // s goes out of scope, and is dropped. Its memory goes away.
   // DANGER!! was gone!!!!
 
-fn first_word(s: &String) -> usize {
-let bytes = s.as_bytes();
+fn first_word_1(s: &String) -> usize {
+    let bytes = s.as_bytes();
 
-for (i, &item) in bytes.iter().enumerate() {
-    if item == b' ' {
-        return i;
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
     }
+    s.len()
 }
 
-s.len()
+fn first_word_2(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..];
+        }
+    }
+    &s[..]
 }
 
-// fn second_word(s: &String) -> (usize, usize) {
+fn second_word(s: &String) -> (usize, usize) {
 
-// }
+}

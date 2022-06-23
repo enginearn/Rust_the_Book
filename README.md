@@ -2062,3 +2062,49 @@ fn dangle() -> String { // dangle returns a reference to a string
 
 > ***Slice*** let you reference a contiguous sequence of elements in a collection rather than the whole collection.
 > A slice is a kind of reference, so it does not have ownership.
+
+<details>
+<summary>slices</summary>
+
+``` rust
+fn main() {
+    let s = String::from("hello");
+    let len = s.len();
+
+    let slice1 = &s[0..2];
+    let slice2 = &s[..2];
+    let slice3 = &s[3..len];
+    let slice4 = &s[3..];
+    let slice5 = &s[0..len];
+    let slice6 = &s[..];
+    
+    println!("slice1 &s[0..2]: '{}'", slice1);
+    println!("slice2 &s[..2]: '{}'", slice2);
+    println!("slice3 &s[3..len]: '{}'", slice3);
+    println!("slice4 &s[3..]: '{}'", slice4);
+    println!("slice5 &s[0..len]: '{}'", slice5);
+    println!("slice6 &s[..]: '{}'", slice6);
+
+    let word2 = String::from("dangling pointer");
+    let f_w_2 = first_word_2(&word2);
+    println!("'{}'", f_w_2);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+slice1 &s[0..2]: he
+slice2 &s[..2]: he
+slice3 &s[3..len]: lo
+slice4 &s[3..]: lo
+slice5 &s[0..len]: hello
+slice6 &s[..]: hello
+dangling pointer
+```
+
+</details>
+
