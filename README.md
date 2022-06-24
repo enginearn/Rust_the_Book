@@ -1997,7 +1997,7 @@ fn main() {
 > before the reference to the data does.
 
 <details>
-<summary>go an error!</summary>
+<summary>got an error!</summary>
 
 ``` rust
 fn main() {
@@ -2107,4 +2107,732 @@ dangling pointer
 ```
 
 </details>
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word_2(&s);
+
+    s.clear();
+
+    println!("the first word is: '{}'", word);
+}
+```
+
+</details>
+
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling ownership v0.1.0 (C:\Users\path\to\Development\Rust\projects\ownership)
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+   --> src\main.rs:147:5
+    |
+145 |     let word = first_word_2(&s);
+    |                             -- immutable borrow occurs here
+146 | 
+147 |     s.clear();
+    |     ^^^^^^^^^ mutable borrow occurs here
+148 | 
+149 |     println!("the first word is: '{}'", word);
+    |                                         ---- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+warning: `ownership` (bin "ownership") generated 5 warnings
+error: could not compile `ownership` due to previous error; 5 warnings emitted
+```
+
+> Recall from the borrowing rules that if we have an immutable reference to something, we cannot
+> also take a mutable reference. Because ***`clear`*** needs to truncate the ***`String`*** , it needs to get a
+> mutable reference. The ***`println!`*** after the call to ***`clear`*** uses the reference in ***`word`*** , so the immutable reference must still be active at that point. Rust disallows the
+> mutable reference in ***`clear`*** and the imuutable reference in ***`word`*** from existing
+> at the same time, and compilation fails.
+> Not only has Rust made our API easier to use, but it has also eliminated an entire class of errors at compile time!
+> 
+
+</details>
+
+#### String Slices as Parameters
+
+<details>
+<summary></summary>
+
+``` rust
+fn main() {
+    let my_string = String::from("hello world");
+
+    // `first_word_3` works on slices of `String`s, whether partial or whole.
+    let word1 = first_word_3(&my_string[0..6]);
+    let word2 = first_word_3(&my_string[..]);
+    // `first_word` also works on references to `String`s, which are equivalent
+    // to whole slices of `String`s
+    let word3 = first_word_3(&my_string);
+
+    let my_string_literal = "hello world";
+
+    // `first_word` works on slices of string literals, whether partial or whole.
+    let word4 = first_word_3(&my_string_literal[0..6]);
+    let word5 = first_word_3(&my_string_literal[..]);
+
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let word6 = first_word_3(my_string_literal);
+
+    println!("'{}'", word1);
+    println!("'{}'", word2);
+    println!("'{}'", word3);
+    println!("'{}'", word4);
+    println!("'{}'", word5);
+    println!("'{}'", word6);
+}
+
+fn first_word_3(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+'helllo'
+'helllo'
+'helllo'
+'hello_'
+'hello_world'
+'hello_world'
+```
+
+</details>
+
+#### Other Slices
+
+<details>
+<summary>slice collections</summary>
+
+``` rust
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let slice = &a[1..3];
+
+    assert_eq!(slice, &[2, 3]);
+}
+```
+
+</details>
+
+### Summary
+
+> The Rust language gives you control over your memory usage in the same way as other systems programming languages,
+> but having the owner of data automatically clean up that data when owner goes out of scope means
+> you don't have to write and debug extra code to get this control.
+
+## Chapter 5
+
+### Using Structs to Structure Related Data
+
+#### Defining and Instantiating Structs
+
+<details>
+<summary></summary>
+
+``` rust
+// out side of main() function
+struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_account: u64,
+}
+```
+
+</details>
+
+#### Creating an Instance and Access The Field Data
+
+<details>
+<summary></summary>
+
+``` rust
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+
+```
+
+</details>
+
+#### Creating Instances From Other Instances With Struct Update Syntax
+
+<details>
+<summary></summary>
+
+``` rust
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+
+```
+
+</details>
+
+#### Using Tuple Structs without Named Fields to Create Differen Types
+
+<details>
+<summary></summary>
+
+``` 
+
+```
+
+</details>
+
+#### Unit-Like Structs Without Any Fields
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+struct User_with_Error {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+};
+
+fn main() {
+    let user_3 = User_with_Error {
+        email: "got-an-error!@error.com",
+        username: "someusername404",
+        active: true,
+        sign_in_count: 1
+    };
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling structs v0.1.0 (C:\Users\path\to\Development\Rust\projects\structs)
+warning: type `User_with_Error` should have an upper camel case name
+  --> src\main.rs:13:8
+   |
+13 | struct User_with_Error {
+   |        ^^^^^^^^^^^^^^^ help: convert the identifier to upper camel case: `UserWithError`
+   |
+   = note: `#[warn(non_camel_case_types)]` on by default
+
+error[E0308]: mismatched types
+  --> src\main.rs:54:16
+   |
+54 |         email: "got-an-error!@error.com",
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                |
+   |                expected struct `String`, found `&str`
+
+error[E0308]: mismatched types
+  --> src\main.rs:55:19
+   |
+55 |         username: "someusername404",
+   |                   ^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                   |
+   |                   expected struct `String`, found `&str`
+
+For more information about this error, try `rustc --explain E0308`.
+warning: `structs` (bin "structs") generated 1 warning
+error: could not compile `structs` due to 2 previous errors; 1 warning emitted
+```
+
+</details>
+
+<details>
+<summary>errors</summary>
+
+``` rust
+path\to in src on   dev
+❯ cargo run
+   Compiling structs v0.1.0 (C:\Users\path\to\Development\Rust\projects\structs)
+error: expected item, found `;`
+  --> src\main.rs:18:2
+   |
+18 | };
+   |  ^ help: remove this semicolon
+   |
+   = help: braced struct declarations are not followed by a semicolon
+
+warning: type `User_with_Error` should have an upper camel case name
+  --> src\main.rs:13:8
+   |
+13 | struct User_with_Error {
+   |        ^^^^^^^^^^^^^^^ help: convert the identifier to upper camel case: `UserWithError`
+   |
+   = note: `#[warn(non_camel_case_types)]` on by default
+
+error[E0308]: mismatched types
+  --> src\main.rs:54:16
+   |
+54 |         email: "got-an-error!@error.com",
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                |
+   |                expected struct `String`, found `&str`
+
+error[E0308]: mismatched types
+  --> src\main.rs:55:19
+   |
+55 |         username: "someusername404",
+   |                   ^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                   |
+   |                   expected struct `String`, found `&str`
+
+For more information about this error, try `rustc --explain E0308`.
+warning: `structs` (bin "structs") generated 1 warning
+error: could not compile `structs` due to 3 previous errors; 1 warning emitted
+path\to in src on   dev
+❯ cargo run
+   Compiling structs v0.1.0 (C:\Users\path\to\Development\Rust\projects\structs)
+error[E0422]: cannot find struct, variant or union type `User_with_Error` in this scope
+  --> src\main.rs:53:18
+   |
+13 | struct UserWithError {
+   | -------------------- similarly named struct `UserWithError` defined here
+...
+53 |     let user_3 = User_with_Error {
+   |                  ^^^^^^^^^^^^^^^ help: a struct with a similar name exists: `UserWithError`
+
+For more information about this error, try `rustc --explain E0422`.
+error: could not compile `structs` due to previous error
+path\to in src on   dev
+❯ cargo run
+   Compiling structs v0.1.0 (C:\Users\path\to\Development\Rust\projects\structs)
+error[E0277]: `AlwaysEqual` doesn't implement `std::fmt::Display`
+  --> src\main.rs:53:20
+   |
+53 |     println!("{}", subject);
+   |                    ^^^^^^^ `AlwaysEqual` cannot be formatted with the default formatter
+   |
+   = help: the trait `std::fmt::Display` is not implemented for `AlwaysEqual`
+   = note: in format strings you may be able to use `{:?}` (or {:#?} for pretty-print) instead
+   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0308]: mismatched types
+  --> src\main.rs:56:16
+   |
+56 |         email: "got-an-error!@error.com",
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                |
+   |                expected struct `String`, found `&str`
+
+error[E0308]: mismatched types
+  --> src\main.rs:57:19
+   |
+57 |         username: "someusername404",
+   |                   ^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                   |
+   |                   expected struct `String`, found `&str`
+
+Some errors have detailed explanations: E0277, E0308.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `structs` due to 3 previous errors
+path\to in src on   dev
+❯ cargo run
+   Compiling structs v0.1.0 (C:\Users\path\to\Development\Rust\projects\structs)
+error[E0277]: `AlwaysEqual` doesn't implement `Debug`
+  --> src\main.rs:53:22
+   |
+53 |     println!("{:?}", subject);
+   |                      ^^^^^^^ `AlwaysEqual` cannot be formatted using `{:?}`
+   |
+   = help: the trait `Debug` is not implemented for `AlwaysEqual`
+   = note: add `#[derive(Debug)]` to `AlwaysEqual` or manually `impl Debug for AlwaysEqual`
+   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0308]: mismatched types
+  --> src\main.rs:56:16
+   |
+56 |         email: "got-an-error!@error.com",
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+   |                |
+   |                expected struct `String`, found `&str`
+
+error[E0308]: mismatched types
+  --> src\main.rs:57:19
+   |
+57 |         username: "someusername404",
+   |                   ^^^^^^^^^^^^^^^^^- help: try using a conversion method: `.to_string()`
+  --> src\main.rs:16:5
+   |
+16 |     email: String,
+   |     ^^^^^^^^^^^^^
+
+warning: field is never read: `sign_in_count`
+  --> src\main.rs:17:5
+   |
+17 |     sign_in_count: u64,
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: function is never used: `build_user`
+  --> src\main.rs:62:4
+   |
+62 | fn build_user(email: String, username: String) -> User {
+   |    ^^^^^^^^^^
+
+warning: `structs` (bin "structs") generated 9 warnings
+    Finished dev [unoptimized + debuginfo] target(s) in 2.25s
+     Running `C:\Users\path\to\Development\Rust\projects\structs\target\debug\structs.exe`
+user1 email is 'anotheremail@example.com'.
+user2 name is 'someusername_123'
+black.0 is '0'
+orange.1 is '165'
+path\to in src on   de
+```
+
+</details>
+
+#### An Example Program Using Structs
+
+<details>
+<summary></summary>
+
+``` rust
+fn main() {
+    let width1 = 30;
+    let height1 = 50;
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(width1, height1)
+    );
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+The area of the rectangle is 1500 square pixels.
+```
+
+</details>
+
+<details>
+<summary>refactoring with tuple</summary>
+
+``` rust
+fn main() {
+    let rect1 = (40, 50);
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        // `ref` means refactoring
+        ref_tuple_area(rect1)
+    );
+}
+
+fn ref_tuple_area(dimensions: (u32, u32)) -> u32 {
+    dimensions.0 * dimensions.1
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+The area of the rectangle is 2000 square pixels.
+```
+
+</details>
+
+<details>
+<summary>refectoring with structs: adding more meaning</summary>
+
+``` rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 50,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        ref_struct_area(&rect1)
+    );
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+The area of the rectangle is 2500 square pixels.
+```
+
+</details>
+
+#### Adding Useful Functionality with Derived Traits
+
+<details>
+<summary>got an error!</summary>
+
+``` rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+            width: 60,
+            height: 50
+        };
+
+    println!("rect1 is {}", rect1);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+cargo run
+   Compiling structs v0.1.0 (C:\Users\path\to\Development\Rust\projects\structs)
+error[E0277]: `Rectangle` doesn't implement `Debug`
+  --> src\main.rs:98:31
+   |
+98 |     println!("rect1 is {:?}", rect1);
+   |                               ^^^^^ `Rectangle` cannot be formatted using `{:?}`
+   |
+   = help: the trait `Debug` is not implemented for `Rectangle`
+   = note: add `#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`
+   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `structs` due to previous error
+```
+
+</details>
+
+<details>
+<summary>put #[derive(Debug)] on Rectangle like below</summary>
+
+``` rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main(){
+    let rect1 = Rectangle {
+        width: 60,
+        height: 50
+    };
+
+    println!("rect1 is {:?}", rect1);
+    println!("rect1 is {:#?}", rect1); // formatted output
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+rect1 is Rectangle { width: 60, height: 50 }
+rect1 is Rectangle {
+    width: 60,
+    height: 50,
+}
+```
+
+</details>
+
+<br>
+
+> Another way to print a value using the ***`Debug`*** format is to use the ***`dbg! macro`*** ,
+> which takes ownership of an expression, printsthe file and line number of where that ***`dbg!`*** macro
+> calls occurs in your code along with the resolving value of that expression, and returns ownership of the value.
+
+> **Note**
+> Calling the ***`dbg!`*** macro prints to standard error console stream ( ***`stderr`*** ), 
+> as opposed to ***`println!`*** which prints to the standard output console stream ( ***`stdout`*** ).
+
+<details>
+<summary></summary>
+
+``` rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let scale = 2;
+    let rect1 = Rectangle {
+        width: dbg!(30 * scale),
+        height: 50
+    };
+
+    dbg!(&rect1);
+}
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+rect1 is Rectangle {
+    width: 60,
+    height: 50,
+}
+[src\main.rs:104] 30 * scale = 60
+[src\main.rs:108] &rect1 = Rectangle {
+    width: 60,
+    height: 50,
+}
+```
+
+</details>
+
+#### Method Syntax
+
+> ***Methods*** are similar to functions: we declare them with the ***`fn`*** keyword and a name,
+> they can have parameters and, return value and they contain some code that's run when the method
+> called from somewhere else.
+> Unlike functions, methods are defined within the context of a struct (or an enum or a trait object),
+> and their first parameter is always ***`self`*** , which represents the instance of themethod is being call on.
+
+<details>
+<summary></summary>
+
+``` 
+
+```
+
+</details>
+
+
+<details>
+<summary></summary>
+
+``` 
+
+```
+
+</details>
+
+> **Note**
+> we still need to use the ***`&`*** in front of the ***`self`*** shorthand to indicate this method
+> borrows the ***`Self`*** instance, just as we did in ***`rectangle: &Rectangle`*** .
+> Method can take ownership of ***`self`*** , borrow ***`self`*** immutably as we've done here,
+> or borrow ***`self`*** mutably, just as they can any other parameter.
+
+> We've chosen ***`&self`*** here for the same reson we used ***`&Rectangle`*** in the function version:
+> we don't want to take ownership and we just want to read the data in the struct, not write to it.
+> If we wanted to change the instance that we've called the method on as part of what the method does,
+> we'd use ***`&mut self`*** as the first parameter.
+
+#### Methods with More Parameters
+
+<details>
+<summary></summary>
+
+``` rust
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+
+```
+
+</details>
+
+#### Associated Functions
+
+<details>
+<summary></summary>
+
+``` rust
+
+```
+
+</details>
+
+<details>
+<summary>results</summary>
+
+``` rust
+
+```
+
+</details>
+
+<br>
+
+> **Summmary**
+> Structs let you create custom types that are meaningful for your domain.
+> By using structs, you can keep associated pieces of data connected to each otjer and
+> name each piece to make your code clear.
+> In ***`Impl`*** blocks, you can define functions that are associated with your type, and
+> methods are a kind of associated funvctio that let you specify the behavior that instances of your structs have.
+
+## Chapter 6
+
+### Enums and Pattern Matching
+
 
