@@ -45,7 +45,7 @@ enum Coin {
     Penny,
     Nickel,
     Dime,
-    Quarter,
+    Quarter(UsState),
 }
 
 fn value_in_cents(coin: Coin) -> u8 {
@@ -56,20 +56,25 @@ fn value_in_cents(coin: Coin) -> u8 {
         },
         Coin::Nickel => 5,
         Coin::Dime => 10,
-        Coin::Quarter => 25,
-        // Coin::Quarter(state: UsState) => {
-        //     println!("State quarter from {:?}!", state);
-        //     25
-        // },
+        // Coin::Quarter => 25,
+        Coin::Quarter(state) => {
+            println!("State quarter from {:?}!", state);
+            25
+        },
     }
 }
 
 fn plus_one(x: Option<i32>) -> Option<i32> {
     match x {
         None => None,
-        Some(i: i32) => Some(i + 1),
+        Some(i) => Some(i + 1),
     }
 }
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {}
+fn reroll()
 
 #[allow(unused)]
 fn main() {
@@ -91,7 +96,7 @@ fn main() {
     // println!("{}", sum);
 
     let res1 = value_in_cents(Coin::Penny);
-    let res2 = value_in_cents(Coin::Quarter);
+    let res2 = value_in_cents(Coin::Quarter(state));
     println!("{}", res1);
     println!("{}", res2);
 
@@ -138,5 +143,38 @@ fn main() {
 
     let m = Message::Write(String::from("hello"));
     m.call();
-}
+
+    let dice_roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        7 => remove_fancy_hat(),
+        other => move_player(other),
+        _ => reroll(),
+    }
+
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {}", max),
+        _ => (),
+    }
+
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    }
+
+    let coin = Cion::Penny;
+    let mut count = 0;
+    match coin {
+        Cion::Quarter(state) => println!("State quarter from {:?}!", state),
+        Cion::Penny => count += 1,
+        _ => (),
+    }
+
+    if let Coin::Quarter(state) = coin {
+        println!("State quarter from {:?}!", state);
+    } else {
+        count += 1;
+    }
+
+} // end of main()
 

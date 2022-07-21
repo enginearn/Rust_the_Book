@@ -2850,4 +2850,8 @@ rect1 is Rectangle {
 
 > Enums are a way of defining custom data types in a different way than you do with structs.
 
+## Chapter 7
+
+### Managing Growing Projects with Packages, Crates and Modules
+
 
