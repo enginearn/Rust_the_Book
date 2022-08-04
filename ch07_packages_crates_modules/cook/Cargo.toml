@@ -1,5 +1,5 @@
 [package]
-name = "ch07_packages_crates_modules"
+name = "cook"
 version = "0.1.0"
 edition = "2021"
 
