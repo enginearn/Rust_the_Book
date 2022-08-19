@@ -408,14 +408,14 @@ error: could not compile `variables` due to previous error
 
 **Integer Types**
 
-|**Length**|**Signed**|**Unsigned**|
-| :---: | :--- | :--- |
-|8-bit|i8|u8|
-|16-bit|i16|u16|
-|32-bit|i32|u32|
-|64-bit|i64|u64|
-|128-bit|i28|u128|
-|arch|isize|usize|
+|**Length**|**Signed**|**Range**|**Unsigned**|**Range**|
+| :---: | :---: | ---: | :---: | ---: |
+|8-bit|i8|-127 to 127|u8|0 to 255|
+|16-bit|i16|-32_768 to 32_767|u16|0 to 65_535|
+|32-bit|i32|-2_147_483_648 to 2_147_483_647|u32|0 to 4_294_967_295|
+|64-bit|i64|-9_223_372_036_854_775_808 to 9_223_372_036_854_775_807|u64|0 to 18_446_744_073_709_551_615|
+|128-bit|i28|-2^127 to 2^127-1|u128|0 to 2^128-1|
+|arch|isize|same as pointer|usize|same as pointer|
 
 **Integer literals in Rust**
 
